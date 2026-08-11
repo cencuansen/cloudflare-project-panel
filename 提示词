@@ -1,0 +1,7 @@
+初始化一个vite + vue3项目
+项目主要功能是部署到 cloudflare，然后读取当前cf账户下部署的全部 worker、pages 进行展示。
+worker、pages分开展示。
+并且提供访问地址、配置的自定义域名
+
+vue3组件使用组合式风格。
+配置src路径别名关联：@: src

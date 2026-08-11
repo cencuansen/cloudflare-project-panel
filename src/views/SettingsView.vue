@@ -222,6 +222,7 @@ function clearConfig() {
 
 .form-actions {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
 }
 
@@ -265,6 +266,23 @@ function clearConfig() {
 @media (max-width: 760px) {
   .settings-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .card {
+    padding: 16px;
+  }
+
+  /* 输入框字号 ≥16px，避免 iOS Safari 聚焦时自动缩放页面 */
+  .field__input {
+    font-size: 16px;
+  }
+
+  /* 主操作按钮独占一行，避免三个按钮在窄屏溢出 */
+  .form-actions .btn--primary {
+    width: 100%;
+    margin-left: 0;
   }
 }
 </style>

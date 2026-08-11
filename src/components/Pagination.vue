@@ -117,4 +117,13 @@ const pageList = computed<Array<number | '…'>>(() => {
   background: transparent;
   color: var(--color-text-muted);
 }
+
+@media (max-width: 720px) {
+  /* 加大触摸目标 */
+  .pagination__btn {
+    min-width: 36px;
+    min-height: 36px;
+    padding: 8px 12px;
+  }
+}
 </style>

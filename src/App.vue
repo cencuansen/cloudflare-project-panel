@@ -43,6 +43,13 @@ const themeLabel = computed(() =>
   <main class="app-main">
     <RouterView />
   </main>
+
+  <!-- 移动端底部标签栏：窄屏下替换顶部导航 -->
+  <nav class="tabbar" aria-label="主导航">
+    <RouterLink to="/workers" class="tabbar__link">Workers</RouterLink>
+    <RouterLink to="/pages" class="tabbar__link">Pages</RouterLink>
+    <RouterLink to="/settings" class="tabbar__link">设置</RouterLink>
+  </nav>
 </template>
 
 <style scoped>
@@ -139,5 +146,59 @@ const themeLabel = computed(() =>
   max-width: 1080px;
   margin: 0 auto;
   padding: 28px 20px 48px;
+}
+
+/* 底部标签栏：默认隐藏（仅移动端显示） */
+.tabbar {
+  display: none;
+  /* 用 sticky 吸附视口底部，比 fixed 更可靠（部分移动端浏览器 fixed 在长页面下失效） */
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.tabbar__link {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.15s, background 0.15s;
+}
+
+.tabbar__link:hover {
+  background: var(--color-hover);
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.tabbar__link.router-link-active {
+  color: var(--color-primary-strong);
+  background: rgba(246, 130, 31, 0.1);
+  font-weight: 600;
+}
+
+/* 移动端：隐藏顶部导航，显示底部标签栏 */
+@media (max-width: 720px) {
+  .header-right .nav {
+    display: none;
+  }
+
+  .tabbar {
+    display: flex;
+  }
+
+  /* 加大主题按钮触摸目标 */
+  .theme-toggle {
+    min-width: 40px;
+    min-height: 40px;
+  }
 }
 </style>

@@ -77,10 +77,15 @@ body {
   color: var(--color-text);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  /* 移动端：去掉点击高亮、横竖屏切换不缩放文字 */
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
 }
 
 #app {
+  /* 100dvh 回退：解决 iOS Safari 地址栏导致的高度问题 */
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
 }
@@ -190,14 +195,15 @@ code {
 
 .card-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  /* minmax(0, 1fr)：轨道最小值取 0 而非内容宽度，长 URL/长名称才不会把卡片撑破 */
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 16px;
 }
 
 /* 窄屏（手机）单列展示 */
 @media (max-width: 720px) {
   .card-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
@@ -210,4 +216,25 @@ code {
   color: var(--color-warning-text);
   font-size: 13px;
   line-height: 1.5;
+}
+
+/* 移动端通用适配（与底部标签栏断点保持一致） */
+@media (max-width: 720px) {
+  .app-main {
+    padding: 16px 14px 24px; /* 标签栏为文档流元素，无需额外留白 */
+  }
+
+  .page-head {
+    margin-bottom: 16px;
+    gap: 10px;
+  }
+
+  .page-title {
+    font-size: 20px;
+  }
+
+  /* 加大按钮触摸目标 */
+  .btn {
+    min-height: 40px;
+  }
 }

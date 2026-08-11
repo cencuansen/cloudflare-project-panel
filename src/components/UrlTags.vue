@@ -1,33 +1,42 @@
 <script setup lang="ts">
 defineProps<{
-  domains: string[]
+  /** 完整 URL 列表（含协议），逐个渲染为胶囊标签 */
+  urls: string[]
 }>()
 </script>
 
 <template>
-  <span v-if="domains.length" class="domain-tags">
+  <span class="url-tags">
     <a
-      v-for="d in domains"
-      :key="d"
-      :href="`https://${d}`"
+      v-for="u in urls"
+      :key="u"
+      :href="u"
       target="_blank"
       rel="noopener noreferrer"
-      class="domain-tag"
+      class="url-tag"
     >
-      {{ d }}
+      {{ u }}
     </a>
   </span>
-  <span v-else class="domain-empty">未配置自定义域名</span>
 </template>
 
 <style scoped>
-.domain-tags {
+.url-tags {
+  /* 纵向排列：每个地址独占一行 */
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 6px;
+  min-width: 0;
 }
 
-.domain-tag {
+.url-tag {
+  /* 单行显示：胶囊内容不折行，超出部分省略；宽度贴合内容 */
+  align-self: flex-start;
+  max-width: 100%;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-family: var(--font-mono);
   font-size: 12px;
   color: var(--color-text-secondary);
@@ -39,14 +48,9 @@ defineProps<{
   transition: color 0.15s, border-color 0.15s;
 }
 
-.domain-tag:hover {
+.url-tag:hover {
   color: var(--color-blue);
   border-color: var(--color-blue);
   text-decoration: none;
-}
-
-.domain-empty {
-  font-size: 13px;
-  color: var(--color-text-muted);
 }
 </style>

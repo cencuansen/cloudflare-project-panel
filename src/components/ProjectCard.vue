@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import DomainTags from './DomainTags.vue'
-import UrlBadge from './UrlBadge.vue'
+import { computed } from 'vue'
+import UrlTags from './UrlTags.vue'
 
 const props = defineProps<{
   name: string
@@ -21,6 +21,14 @@ function formatTime(iso: string): string {
 }
 
 const kindLabel = props.kind === 'worker' ? 'Worker' : 'Pages'
+
+/** 访问地址与自定义域名合并为一个胶囊列表，不再区分 */
+const urls = computed<string[]>(() => {
+  const list: string[] = []
+  if (props.primaryUrl) list.push(props.primaryUrl)
+  for (const d of props.customDomains) list.push(`https://${d}`)
+  return list
+})
 </script>
 
 <template>
@@ -34,18 +42,8 @@ const kindLabel = props.kind === 'worker' ? 'Worker' : 'Pages'
     </header>
 
     <div class="card__body">
-      <div class="row">
-        <span class="row__label">访问地址</span>
-        <UrlBadge v-if="primaryUrl" :url="primaryUrl" />
-        <span v-else class="row__value row__value--muted">未启用 workers.dev 子域名</span>
-      </div>
-
-      <div class="row">
-        <span class="row__label">自定义域名</span>
-        <div class="row__value">
-          <DomainTags :domains="customDomains" />
-        </div>
-      </div>
+      <UrlTags v-if="urls.length" :urls="urls" />
+      <span v-else class="card__empty">暂无访问地址与域名</span>
     </div>
   </article>
 </template>
@@ -117,27 +115,15 @@ const kindLabel = props.kind === 'worker' ? 'Worker' : 'Pages'
   min-width: 0;
 }
 
-.row {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  min-width: 0;
-}
-
-.row__label {
-  flex-shrink: 0;
-  width: 74px;
-  font-size: 12.5px;
-  color: var(--color-text-muted);
-  line-height: 24px;
-}
-
-.row__value {
-  min-width: 0;
+.card__empty {
   font-size: 13px;
+  color: var(--color-text-muted);
 }
 
-.row__value--muted {
-  color: var(--color-text-muted);
+@media (max-width: 720px) {
+  .card {
+    padding: 12px 14px;
+    gap: 12px;
+  }
 }
 </style>

@@ -90,4 +90,14 @@ defineEmits<{
     transform: rotate(360deg);
   }
 }
+
+@media (max-width: 720px) {
+  .state-panel {
+    padding: 48px 16px;
+  }
+
+  .state-panel__title {
+    font-size: 14px;
+  }
+}
 </style>

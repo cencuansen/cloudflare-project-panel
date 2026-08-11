@@ -24,6 +24,11 @@ export default defineConfig({
   },
   server: {
     proxy: cfProxy,
+    port: 8800,
+    // 允许内网其他设备通过局域网 IP 访问
+    host: true,
+    // 启动后自动打开浏览器
+    open: true,
   },
   preview: {
     proxy: cfProxy,
